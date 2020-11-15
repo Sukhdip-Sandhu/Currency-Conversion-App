@@ -1,7 +1,8 @@
-package com.example.exchangerateconverter
+package com.example.exchangerateconverter.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.exchangerateconverter.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
