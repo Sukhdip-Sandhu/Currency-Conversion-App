@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="country_code_text_size">18sp</dimen>
+    <dimen name="user_input_text_size">36sp</dimen>
+
+    <dimen name="item_country_code_text_size">18sp</dimen>
+    <dimen name="item_country_name_text_size">12sp</dimen>
+    <dimen name="item_exchange_rate_text_size">14sp</dimen>
+
+</resources>
