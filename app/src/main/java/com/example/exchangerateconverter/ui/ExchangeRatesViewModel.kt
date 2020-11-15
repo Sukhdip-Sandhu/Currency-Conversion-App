@@ -7,23 +7,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.exchangerateconverter.models.ExchangeRates
-import com.example.exchangerateconverter.models.LiveExchangeRatesResponse
-import com.example.exchangerateconverter.models.SupportedCurrenciesResponse
 import com.example.exchangerateconverter.pref.PreferenceProvider
 import com.example.exchangerateconverter.repository.ExchangeRatesRepository
 import com.example.exchangerateconverter.util.Constants.Companion.FETCH_INTERVAL
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ExchangeRatesViewModel(
     private val exchangeRatesRepository: ExchangeRatesRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
+    private val preferences = PreferenceProvider(context = getApplication())
+
     private val _allExchangeRates = exchangeRatesRepository.allExchangeRates
     private val _userCurrencyInput = MutableLiveData<Double>()
     private val _progress = MutableLiveData<Boolean>()
-
-    private val preferences = PreferenceProvider(context = getApplication())
 
     init {
         fetchAndCacheData()
@@ -52,41 +51,15 @@ class ExchangeRatesViewModel(
     private fun fetchAndCacheData() = viewModelScope.launch {
         if (isFetchNeeded()) {
             _progress.postValue(true)
-            val listOfSupportedCurrencies = exchangeRatesRepository.getListOfSupportedCurrencies()
-            val liveExchangeRates = exchangeRatesRepository.getLiveExchangeRates()
-            if (listOfSupportedCurrencies.isSuccessful && liveExchangeRates.isSuccessful) {
-                listOfSupportedCurrencies.body()?.let { supportedCurrencies ->
-                    liveExchangeRates.body()?.let { exchangeRates ->
-                        persistDataToDatabase(supportedCurrencies, exchangeRates)
-                    }
-                }
-            } else {
-                // Todo handle errors
+            try {
+                exchangeRatesRepository.fetchAndCacheExchangeRates()
+                val currentTime = System.currentTimeMillis() / 1000L
+                preferences.saveLatestFetchTime(currentTime.toInt())
+            } catch (e: Exception) {
+                // Todo: Error handling
             }
             _progress.postValue(false)
-        } // else do nothing
-    }
-
-    private suspend fun persistDataToDatabase(
-        supportedCurrencies: SupportedCurrenciesResponse,
-        liveExchangeRates: LiveExchangeRatesResponse
-    ) {
-        val exchangeRatesList: MutableList<ExchangeRates> = mutableListOf()
-        val currencies = supportedCurrencies.currencies
-        val exchangeRatesQuotes = liveExchangeRates.quotes
-        val exchangeRatesSource = liveExchangeRates.source
-
-        for (currency in currencies) {
-            val exchangeRate = ExchangeRates(
-                currency.key,
-                currency.value,
-                exchangeRatesQuotes.getOrDefault("${exchangeRatesSource}${currency.key}", 0.0)
-            )
-            exchangeRatesList.add(exchangeRate)
         }
-        exchangeRatesRepository.upsertExchangeRates(exchangeRatesList)
-        val currentTime = System.currentTimeMillis() / 1000L
-        preferences.saveLatestFetchTime(currentTime.toInt())
     }
 
     private fun isFetchNeeded(): Boolean {
