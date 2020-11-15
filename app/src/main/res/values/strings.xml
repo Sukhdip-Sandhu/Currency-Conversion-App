@@ -16,5 +16,7 @@
     <!--Content Descriptions-->
     <string name="content_description_flag_icon">Flag Icon</string>
     <string name="content_description_chevron">Chevron</string>
+    <string name="menu_item_title_refresh">Refresh</string>
+    <string name="menu_item_title_search">Search</string>
 
 </resources>

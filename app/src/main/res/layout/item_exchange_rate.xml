@@ -15,7 +15,7 @@
         android:weightSum="10">
 
         <ImageView
-            android:id="@+id/flag_icon_image"
+            android:id="@+id/item_flag_icon_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -15,7 +15,7 @@
         android:weightSum="10">
 
         <ImageView
-            android:id="@+id/flag_icon_image"
+            android:id="@+id/item_flag_icon_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -33,7 +33,7 @@
             android:paddingEnd="8dp">
 
             <TextView
-                android:id="@+id/country_code_tv"
+                android:id="@+id/item_country_code_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/item_country_code_text_size"
@@ -41,7 +41,7 @@
                 tools:text="@string/country2_code" />
 
             <TextView
-                android:id="@+id/country_name_tv"
+                android:id="@+id/item_country_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/item_country_name_text_size"

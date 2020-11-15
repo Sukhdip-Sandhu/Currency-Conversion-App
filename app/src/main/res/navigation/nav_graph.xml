@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/exchangeRateConverterFragment"
-        android:name="com.example.exchangerateconverter.ui.fragments.ExchangeRateConverterFragment"
+        android:name="com.example.exchangerateconverter.ui.fragments.ExchangeRatesConverterFragment"
         android:label="fragment_exchange_rate_converter"
         tools:layout="@layout/fragment_exchange_rate_converter">
         <action
