@@ -36,7 +36,7 @@ class SelectCurrencyAdapter : RecyclerView.Adapter<SelectCurrencyAdapter.ViewHol
         val exchangeRate = listOfExchangeRates[position]
 
         holder.itemView.apply {
-            item_country_name_tv.text = exchangeRate.countryCode
+            item_country_code_tv.text = exchangeRate.countryCode
             item_country_name_tv.text = exchangeRate.countryName
 
             item_flag_icon_image.setImageResource(
