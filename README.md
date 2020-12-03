@@ -1,5 +1,5 @@
 # Currency Converter
-Simple application to convert currencies per a MobileDeveloperChallenge for PayPay Corporation
+Simple application to convert currencies
 
 ![UI Images](https://i.imgur.com/RvYxbMj.png)
 
