@@ -6,22 +6,25 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.exchangerateconverter.R
 import com.example.exchangerateconverter.ui.ExchangeRatesViewModel
 import com.example.exchangerateconverter.ui.MainActivity
 import com.example.exchangerateconverter.ui.adapters.SelectCurrencyAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_select_currency.*
 
+@AndroidEntryPoint
 class SelectCurrencyFragment : Fragment(R.layout.fragment_select_currency) {
 
-    private lateinit var viewModel: ExchangeRatesViewModel
+    private val viewModel: ExchangeRatesViewModel by viewModels()
     private lateinit var selectCurrencyAdapter: SelectCurrencyAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+
         setHasOptionsMenu(true)
         setupRecyclerView()
 

@@ -15,21 +15,4 @@ abstract class ExchangeRatesDatabase : RoomDatabase() {
 
     abstract fun getExchangeRateDao(): ExchangeRatesDao
 
-    companion object {
-        @Volatile
-        private var INSTANCE: ExchangeRatesDatabase? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context) = INSTANCE ?: synchronized(LOCK) {
-            INSTANCE ?: createDatabase(context).also { INSTANCE = it }
-        }
-
-        private fun createDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                ExchangeRatesDatabase::class.java,
-                "exchange_rate.db"
-            ).build()
-    }
-
 }

@@ -1,24 +1,26 @@
 package com.example.exchangerateconverter.ui
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.exchangerateconverter.models.ExchangeRates
 import com.example.exchangerateconverter.pref.PreferenceProvider
 import com.example.exchangerateconverter.repository.ExchangeRatesRepository
 import com.example.exchangerateconverter.util.Constants.Companion.FETCH_INTERVAL
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class ExchangeRatesViewModel(
+@HiltViewModel
+class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesRepository: ExchangeRatesRepository,
-    application: Application
-) : AndroidViewModel(application) {
+    @ApplicationContext context: Context
+) : ViewModel() {
 
-    private val preferences = PreferenceProvider(context = getApplication())
+    private val preferences = PreferenceProvider(context)
 
     private val _allExchangeRates = exchangeRatesRepository.allExchangeRates
     private val _userCurrencyInput = MutableLiveData<Double>()

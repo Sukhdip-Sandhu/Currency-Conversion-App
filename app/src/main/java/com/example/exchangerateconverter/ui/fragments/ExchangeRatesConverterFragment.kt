@@ -6,29 +6,29 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.exchangerateconverter.R
 import com.example.exchangerateconverter.ui.ExchangeRatesViewModel
-import com.example.exchangerateconverter.ui.MainActivity
 import com.example.exchangerateconverter.ui.adapters.ExchangeRatesAdapter
 import com.example.exchangerateconverter.util.InputValidationUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_exchange_rate_converter.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.*
 
+@AndroidEntryPoint
 class ExchangeRatesConverterFragment : Fragment(R.layout.fragment_exchange_rate_converter) {
 
-    private lateinit var viewModel: ExchangeRatesViewModel
+    private val viewModel: ExchangeRatesViewModel by viewModels()
     private lateinit var exchangeRatesAdapter: ExchangeRatesAdapter
     private val args: ExchangeRatesConverterFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = (activity as MainActivity).viewModel
 
         setHasOptionsMenu(true)
         setupRecyclerView()

@@ -6,25 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.exchangerateconverter.R
 import com.example.exchangerateconverter.db.ExchangeRatesDatabase
 import com.example.exchangerateconverter.repository.ExchangeRatesRepository
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    lateinit var viewModel: ExchangeRatesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.elevation = 0F
-        val exchangeRatesRepository = ExchangeRatesRepository(ExchangeRatesDatabase(this))
-
-        val viewModelProviderFactory =
-            ExchangeRatesViewModelProvider(exchangeRatesRepository, application)
-
-        viewModel =
-            ViewModelProvider(
-                this,
-                viewModelProviderFactory
-            ).get(ExchangeRatesViewModel::class.java)
-
     }
 }

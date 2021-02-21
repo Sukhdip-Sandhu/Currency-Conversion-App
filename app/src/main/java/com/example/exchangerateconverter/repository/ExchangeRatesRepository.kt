@@ -1,25 +1,23 @@
 package com.example.exchangerateconverter.repository
 
-import androidx.lifecycle.LiveData
-import com.example.exchangerateconverter.api.RetrofitInstance
-import com.example.exchangerateconverter.db.ExchangeRatesDatabase
+import com.example.exchangerateconverter.api.CurrencyLayerAPI
+import com.example.exchangerateconverter.db.ExchangeRatesDao
 import com.example.exchangerateconverter.models.ExchangeRates
-import com.example.exchangerateconverter.models.LiveExchangeRatesResponse
-import com.example.exchangerateconverter.models.SupportedCurrenciesResponse
-import kotlinx.coroutines.delay
-import retrofit2.Response
-import java.lang.Exception
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import javax.inject.Inject
 
-class ExchangeRatesRepository(
-        private val db: ExchangeRatesDatabase
+@ActivityRetainedScoped
+class ExchangeRatesRepository
+@Inject constructor(
+    private val exchangeRatesDao: ExchangeRatesDao,
+    private val currencyLayerAPI: CurrencyLayerAPI
 ) {
-
-    val allExchangeRates = db.getExchangeRateDao().getAllExchangeRates()
+    val allExchangeRates = exchangeRatesDao.getAllExchangeRates()
 
     suspend fun fetchAndCacheExchangeRates() {
         try {
-            val listOfSupportedCurrencies = RetrofitInstance.api.getListOfSupportedCurrencies()
-            val liveExchangeRates = RetrofitInstance.api.getLiveExchangeRates()
+            val listOfSupportedCurrencies = currencyLayerAPI.getListOfSupportedCurrencies()
+            val liveExchangeRates = currencyLayerAPI.getLiveExchangeRates()
             if (listOfSupportedCurrencies.isSuccessful && liveExchangeRates.isSuccessful) {
                 listOfSupportedCurrencies.body()?.let { supportedCurrencies ->
                     liveExchangeRates.body()?.let { exchangeRates ->
@@ -31,14 +29,17 @@ class ExchangeRatesRepository(
 
                         for (currency in currencies) {
                             val exchangeRate = ExchangeRates(
-                                    currency.key,
-                                    currency.value,
-                                    exchangeRatesQuotes.getOrDefault("${exchangeRatesSource}${currency.key}", 0.0)
+                                currency.key,
+                                currency.value,
+                                exchangeRatesQuotes.getOrDefault(
+                                    "${exchangeRatesSource}${currency.key}",
+                                    0.0
+                                )
                             )
                             exchangeRatesList.add(exchangeRate)
                         }
 
-                        db.getExchangeRateDao().upsertExchangeRates(exchangeRatesList)
+                        exchangeRatesDao.upsertExchangeRates(exchangeRatesList)
                     }
                 }
             }
