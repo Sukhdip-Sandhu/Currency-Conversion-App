@@ -1,5 +1,5 @@
 # Currency Converter
-Simple application to convert currencies
+Simple application to convert currencies in Kotlin MVVM using Android Jetpack 
 
 ![UI Images](https://i.imgur.com/RvYxbMj.png)
 
