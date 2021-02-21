@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
+
 }
 
 android {
@@ -65,6 +67,10 @@ dependencies {
 
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    // Hilt Dependancy Injection
+    implementation "com.google.dagger:hilt-android:2.32-alpha"
+    kapt "com.google.dagger:hilt-compiler:2.32-alpha"
 
     // Room
     implementation "androidx.room:room-runtime:2.2.5"
