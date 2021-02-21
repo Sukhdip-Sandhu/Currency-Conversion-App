@@ -12,15 +12,13 @@ Simple application to convert currencies
 
 ✅ LiveData
 
+✅ Hilt Dependancy Injection
+
 ✅ Retrofit2 & OkHttp3 
 
 ✅ Room Database
 
 ✅ Simple Unit and Instrumented Tests
-
-### TODO
-
-💉 Hilt Dependancy Injection
 
 
 ---
